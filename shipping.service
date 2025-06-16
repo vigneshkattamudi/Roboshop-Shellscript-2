@@ -1,0 +1,14 @@
+[Unit]
+Description=Shipping Service
+
+[Service]
+User=roboshop
+// highlight-start
+Environment=CART_ENDPOINT=cart.dsops84.space:8080
+Environment=DB_HOST=mysql.dsops84.space
+// highlight-end
+ExecStart=/bin/java -jar /app/shipping.jar
+SyslogIdentifier=shipping
+
+[Install]
+WantedBy=multi-user.target
