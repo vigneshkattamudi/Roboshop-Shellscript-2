@@ -14,27 +14,6 @@ SCRIPT_DIR=$PWD
 mkdir -p $LOGS_FOLDER
 echo "Script started executing at: $(date)" | tee -a $LOG_FILE
 
-check_root(){
-    if [ $USERID -ne 0 ]
-    then
-        echo -e "$R ERROR:: Please run this script with root access $N" | tee -a $LOG_FILE
-        exit 1 #give other than 0 upto 127
-    else
-        echo "You are running with root access" | tee -a $LOG_FILE
-    fi
-}
-
-# validate functions takes input as exit status, what command they tried to install
-VALIDATE(){
-    if [ $1 -eq 0 ]
-    then
-        echo -e "$2 is ... $G SUCCESS $N" | tee -a $LOG_FILE
-    else
-        echo -e "$2 is ... $R FAILURE $N" | tee -a $LOG_FILE
-        exit 1
-    fi
-}
-
 app_setup(){
     id roboshop &>>$LOG_FILE
     if [ $? -ne 0 ]
@@ -102,6 +81,27 @@ systemd_setup(){
     systemctl enable $app_name  &>>$LOG_FILE
     systemctl start $app_name
     VALIDATE $? "Starting $app_name"
+}
+
+check_root(){
+    if [ $USERID -ne 0 ]
+    then
+        echo -e "$R ERROR:: Please run this script with root access $N" | tee -a $LOG_FILE
+        exit 1 #give other than 0 upto 127
+    else
+        echo "You are running with root access" | tee -a $LOG_FILE
+    fi
+}
+
+# validate functions takes input as exit status, what command they tried to install
+VALIDATE(){
+    if [ $1 -eq 0 ]
+    then
+        echo -e "$2 is ... $G SUCCESS $N" | tee -a $LOG_FILE
+    else
+        echo -e "$2 is ... $R FAILURE $N" | tee -a $LOG_FILE
+        exit 1
+    fi
 }
 
 print_time(){
