@@ -2,8 +2,8 @@
 
 source ./common.sh
 app_name=shipping
-check_root
 
+check_root
 echo "Please enter root password to setup"
 read -s MYSQL_ROOT_PASSWORD
 
